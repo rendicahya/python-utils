@@ -3,7 +3,8 @@ import pathlib
 
 import click
 import numpy as np
-from moviepy.editor import VideoFileClip, clips_array, concatenate_videoclips
+from moviepy.editor import (ColorClip, VideoFileClip, clips_array,
+                            concatenate_videoclips)
 
 
 @click.command()
@@ -26,7 +27,6 @@ from moviepy.editor import VideoFileClip, clips_array, concatenate_videoclips
     type=click.Path(
         file_okay=False,
         dir_okay=True,
-        exists=True,
         writable=True,
         path_type=pathlib.Path,
     ),
@@ -48,13 +48,18 @@ from moviepy.editor import VideoFileClip, clips_array, concatenate_videoclips
     help="The shape (# of rows and columns) of the collage.",
 )
 def main(input, output, extension, shape):
+    output.mkdir(exist_ok=True, parents=True)
+
     for action in input.iterdir():
+        print(action.name)
+
         if not os.path.isdir(action):
             continue
 
         count = 0
         clips = []
         group = []
+        group_size = shape[0] * shape[1]
 
         for video in action.iterdir():
             if video.suffix != f".{extension}":
@@ -64,13 +69,31 @@ def main(input, output, extension, shape):
 
             group.append(VideoFileClip(str(video)))
 
-            if count % (shape[0] * shape[1]) == 0:
+            if count % group_size == 0:
                 group = np.array(group).reshape(shape)
                 group = clips_array(group)
 
                 clips.append(group)
 
                 group = []
+
+        if len(group) > 0:
+            max_size, max_width, max_height = 0, 0, 0
+
+            for clip in group:
+                if clip.w * clip.h > max_size:
+                    max_size = clip.w * clip.h
+                    max_width = clip.w
+                    max_height = clip.h
+
+            for count in range((count % group_size) + 1, group_size + 1):
+                black = ColorClip((max_width, max_height), color=(0, 0, 0), duration=1)
+
+                group.append(black)
+
+            group = np.array(group).reshape(shape)
+            group = clips_array(group)
+            clips.append(group)
 
         concatenate_videoclips(clips).without_audio().write_videofile(
             str(output / (action.name + ".mp4"))

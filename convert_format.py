@@ -43,13 +43,16 @@ from tqdm import tqdm
     nargs=1,
     required=True,
 )
-def main(input, output, source_format, dest_format):
+@click.option(
+    "--mute", is_flag=True, default=False, help="Whether to mute the output videos."
+)
+def main(input, output, source_format, dest_format, mute):
     n_files = utils.count_files(input, extension=source_format)
 
     with tqdm(total=n_files) as bar:
         for input_video in input.rglob(f"*.{source_format}"):
             bar.set_description(input_video.name)
-            
+
             relative_input_path = input_video.relative_to(input)
             output_video_path = output / relative_input_path.with_suffix(
                 f".{dest_format}"
@@ -57,7 +60,7 @@ def main(input, output, source_format, dest_format):
 
             output_video_path.parent.mkdir(parents=True, exist_ok=True)
             VideoFileClip(str(input_video)).write_videofile(
-                str(output_video_path), logger=None
+                str(output_video_path), logger=None, audio=not mute
             )
             bar.update(1)
 

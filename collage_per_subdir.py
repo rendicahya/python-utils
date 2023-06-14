@@ -27,7 +27,6 @@ from moviepy.editor import (ColorClip, VideoFileClip, clips_array,
     type=click.Path(
         file_okay=False,
         dir_okay=True,
-        writable=True,
         path_type=pathlib.Path,
     ),
 )

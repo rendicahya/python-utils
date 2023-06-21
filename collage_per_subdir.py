@@ -47,10 +47,13 @@ from moviepy.editor import (ColorClip, VideoFileClip, clips_array,
     help="The shape (# of rows and columns) of the collage.",
 )
 def main(input, output, extension, shape):
+    count = 1
+    n_subdirs = sum([1 for _ in input.iterdir()])
+
     output.mkdir(exist_ok=True, parents=True)
 
     for action in input.iterdir():
-        print(action.name)
+        print(f"{count}/{n_subdirs} {action.name}")
 
         if not os.path.isdir(action):
             continue

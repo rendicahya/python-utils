@@ -1,9 +1,8 @@
-import concurrent.futures
 import pathlib
 
 import av
 import cv2
-from decord import VideoReader, cpu, gpu
+from decord import VideoReader, cpu
 from moviepy.editor import VideoFileClip
 from timer_py import Timer
 

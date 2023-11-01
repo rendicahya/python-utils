@@ -59,7 +59,7 @@ def test_decord(file_list):
 
 def main():
     timer = Timer()
-    dataset_path = pathlib.Path("/nas.dbms/randy/datasets/ucf101/ApplyEyeMakeup")
+    dataset_path = pathlib.Path("/../../../datasets/ucf101/ApplyEyeMakeup")
     file_list = [str(file) for file in dataset_path.iterdir() if file.is_file()]
 
     print(f"Benchmarking with {len(file_list)} videos...")

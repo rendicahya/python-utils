@@ -44,7 +44,7 @@ def test_pyav(file_list):
             fps = container.streams.video[0].average_rate
 
             for frame in container.decode(video=0):
-                pass
+                frame_np = frame.to_ndarray()
 
 
 def test_decord(file_list):
@@ -54,7 +54,8 @@ def test_decord(file_list):
             fps = vr.get_avg_fps
 
             for i in range(len(vr)):
-                frame = vr[i]
+                frame = vr[i].asnumpy()  # RGB
+                frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
 
 def main():
@@ -69,10 +70,10 @@ def main():
     test_opencv(file_list)
     timer.stop()
 
-    timer.set_tag("MoviePy")
-    timer.start()
-    test_moviepy(file_list)
-    timer.stop()
+    # timer.set_tag("MoviePy")
+    # timer.start()
+    # test_moviepy(file_list)
+    # timer.stop()
 
     timer.set_tag("PyAV")
     timer.start()
@@ -84,10 +85,10 @@ def main():
     test_decord(file_list)
     timer.stop()
 
-    timer.set_tag("Torchvision")
-    timer.start()
-    test_torchvision(file_list)
-    timer.stop()
+    # timer.set_tag("Torchvision")
+    # timer.start()
+    # test_torchvision(file_list)
+    # timer.stop()
 
 
 if __name__ == "__main__":

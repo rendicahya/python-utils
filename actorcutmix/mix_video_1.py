@@ -1,66 +1,31 @@
-import pathlib
+from pathlib import Path
 
-import click
 import numpy as np
 from moviepy.editor import ImageSequenceClip, VideoFileClip
 from PIL import Image
 
+if __name__ == "__main__":
+    video1_path = Path(
+        "/nas.dbms/randy/datasets/ucf101/Basketball/v_Basketball_g01_c01.avi"
+    )
+    video2_path = Path(
+        "/nas.dbms/randy/datasets/ucf101/Basketball/v_Basketball_g05_c01.avi"
+    )
+    mask_base_path = Path("/nas.dbms/randy/datasets/ucf101-bbox-mask")
+    mask1_path = mask_base_path / video1_path.parent.name / video1_path.stem
+    mask2_path = mask_base_path / video2_path.parent.name / video2_path.stem
 
-@click.command()
-@click.argument(
-    "video1-path",
-    nargs=1,
-    required=True,
-    type=click.Path(
-        file_okay=True,
-        dir_okay=False,
-        exists=True,
-        readable=True,
-        path_type=pathlib.Path,
-    ),
-)
-@click.argument(
-    "video1-mask-path",
-    nargs=1,
-    required=True,
-    type=click.Path(
-        file_okay=False,
-        dir_okay=True,
-        exists=True,
-        readable=True,
-        path_type=pathlib.Path,
-    ),
-)
-@click.argument(
-    "video2-path",
-    nargs=1,
-    required=True,
-    type=click.Path(
-        file_okay=True,
-        dir_okay=False,
-        exists=True,
-        readable=True,
-        path_type=pathlib.Path,
-    ),
-)
-@click.argument(
-    "video2-mask-path",
-    nargs=1,
-    required=True,
-    type=click.Path(
-        file_okay=False,
-        dir_okay=True,
-        exists=True,
-        readable=True,
-        path_type=pathlib.Path,
-    ),
-)
-def main(video1_path, video1_mask_path, video2_path, video2_mask_path):
+    assert video1_path.exists() and video1_path.is_file()
+    assert video2_path.exists() and video2_path.is_file()
+    assert mask_base_path.exists() and mask_base_path.is_dir()
+    assert mask1_path.exists() and mask1_path.is_dir()
+    assert mask2_path.exists() and mask2_path.is_dir()
+
     video1 = VideoFileClip(str(video1_path))
-    video1_mask = [Image.open(file).convert("L") for file in video1_mask_path.iterdir()]
+    video1_mask = [Image.open(file).convert("L") for file in mask1_path.iterdir()]
 
     video2 = VideoFileClip(str(video2_path))
-    video2_mask = [Image.open(file).convert("L") for file in video2_mask_path.iterdir()]
+    video2_mask = [Image.open(file).convert("L") for file in mask2_path.iterdir()]
 
     n_frames = min(video1.reader.nframes, video2.reader.nframes) - 1
 
@@ -93,7 +58,3 @@ def main(video1_path, video1_mask_path, video2_path, video2_mask_path):
 
     ImageSequenceClip(mix1, fps=video1.fps).write_videofile("mix1.mp4", audio=False)
     ImageSequenceClip(mix2, fps=video2.fps).write_videofile("mix2.mp4", audio=False)
-
-
-if __name__ == "__main__":
-    main()

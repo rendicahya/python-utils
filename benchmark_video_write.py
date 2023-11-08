@@ -1,4 +1,4 @@
-import pathlib
+from pathlib import Path
 
 import av
 import cv2
@@ -7,8 +7,7 @@ from moviepy.editor import ImageSequenceClip
 from timer_py import Timer
 
 
-def extract_data(path):
-    file_list = [str(file) for file in path.iterdir() if file.is_file()]
+def extract_data(file_list):
     frame_bank = {}
 
     for file in file_list:
@@ -61,27 +60,33 @@ def test_opencv(dataset, target_dir):
         video.release()
 
 
-def main():
+if __name__ == "__main__":
+    dataset_path = Path("/nas.dbms/randy/datasets/ucf101/ApplyEyeMakeup")
+
+    assert dataset_path.exists() and dataset_path.is_dir()
+
     timer = Timer()
-    dataset_path = pathlib.Path("/nas.dbms/randy/datasets/ucf101/ApplyEyeMakeup")
-    target_path = dataset_path / "benchmark-temp"
-    dataset = extract_data(dataset_path)
+    target_path = Path("benchmark-temp")
+    extension = ".avi"
+    file_list = [str(file) for file in dataset_path.glob(f"**/*{extension}")]
 
-    # timer.set_tag("MoviePy")
-    # timer.start()
-    # test_moviepy(dataset, target_path)
-    # timer.stop()
+    print("Extracting frames...")
+    dataset = extract_data(file_list)
 
-    # timer.set_tag("OpenCV")
-    # timer.start()
-    # test_opencv(dataset, target_path)
-    # timer.stop()
+    print("Benchmarking MoviePy...")
+    timer.set_tag("MoviePy")
+    timer.start()
+    test_moviepy(dataset, target_path)
+    timer.stop()
 
+    print("Benchmarking OpenCV...")
+    timer.set_tag("OpenCV")
+    timer.start()
+    test_opencv(dataset, target_path)
+    timer.stop()
+
+    print("Benchmarking PyAV...")
     timer.set_tag("PyAV")
     timer.start()
     test_pyav(dataset, target_path)
     timer.stop()
-
-
-if __name__ == "__main__":
-    main()

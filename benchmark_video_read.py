@@ -61,7 +61,11 @@ def test_decord(file_list):
 def main():
     timer = Timer()
     dataset_path = pathlib.Path("../../../datasets/ucf101/ApplyEyeMakeup")
-    file_list = [str(file) for file in dataset_path.iterdir() if file.is_file()]
+
+    assert dataset_path.exists() and dataset_path.is_dir()
+
+    extension = ".avi"
+    file_list = [str(file) for file in dataset_path.glob(f"**/*{extension}")]
 
     print(f"Benchmarking with {len(file_list)} videos...")
 
@@ -70,10 +74,10 @@ def main():
     test_opencv(file_list)
     timer.stop()
 
-    # timer.set_tag("MoviePy")
-    # timer.start()
-    # test_moviepy(file_list)
-    # timer.stop()
+    timer.set_tag("MoviePy")
+    timer.start()
+    test_moviepy(file_list)
+    timer.stop()
 
     timer.set_tag("PyAV")
     timer.start()

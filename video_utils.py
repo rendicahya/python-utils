@@ -1,7 +1,7 @@
 from typing import Union
 
 import cv2
-from utils import assert_file, pathify
+from file_utils import assert_file, pathify
 
 
 def get_video_writer_like(path: Union[Path, str], format: str = "mp4"):

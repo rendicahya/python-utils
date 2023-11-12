@@ -9,8 +9,8 @@ def get_video_writer_like(path: Union[Path, str], format: str = "mp4"):
 
     fourcc_formats = {"mp4": "mp4v"}
     video = cv2.VideoCapture(str(file))
-    fourcc_format = *fourcc_formats[format]
-    fourcc = cv2.VideoWriter_fourcc(fourcc_format)
+    fourcc_format = fourcc_formats[format]
+    fourcc = cv2.VideoWriter_fourcc(*fourcc_format)
     fps = float(video.get(cv2.CAP_PROP_FPS))
     width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))

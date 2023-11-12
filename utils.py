@@ -6,7 +6,7 @@ from typing import Union
 from tqdm import tqdm
 
 
-def assert_dir(path: Union[Path, str], name: str):
+def assert_dir(path: Union[Path, str], name: str) -> None:
     path = pathify(path)
 
     assert path.exists(), f"{name} not found."
@@ -14,7 +14,7 @@ def assert_dir(path: Union[Path, str], name: str):
     assert os.access(path, os.R_OK), f"{name} not readable."
 
 
-def assert_file(path: Union[Path, str], name: str, ext: str = None):
+def assert_file(path: Union[Path, str], name: str, ext: str = None) -> None:
     path = pathify(path)
 
     assert path.exists(), f"{name} not found."
@@ -27,7 +27,9 @@ def assert_file(path: Union[Path, str], name: str, ext: str = None):
         assert path.suffix == ext, f"{name} must be in a {ext} format."
 
 
-def iterate(path: Path, operation, extension=None, progress_bar=True, single=False):
+def iterate(
+    path: Path, operation, extension=None, progress_bar=True, single=False
+) -> None:
     n_files = count_files(path, recursive=True, extension=extension)
 
     with tqdm(total=n_files) if progress_bar else nullcontext() as bar:
@@ -49,7 +51,7 @@ def iterate(path: Path, operation, extension=None, progress_bar=True, single=Fal
                 break
 
 
-def count_files(path: Union[Path, str], recursive=True, ext: str = None):
+def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
     assert_dir(path)
 
     path = pathify(path)

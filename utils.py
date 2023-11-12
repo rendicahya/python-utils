@@ -52,7 +52,7 @@ def iterate(
 
 
 def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
-    assert_dir(path)
+    assert_dir(path, 'Path for count_files()')
 
     path = pathify(path)
     pattern = "**/*" if recursive else "*"

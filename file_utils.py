@@ -6,25 +6,25 @@ from typing import Union
 from tqdm import tqdm
 
 
-def assert_dir(path: Union[Path, str], name: str) -> None:
+def assert_dir(path: Union[Path, str]) -> None:
     path = pathify(path)
 
-    assert path.exists(), f"{name} not found."
-    assert path.is_dir(), f"{name} must be a directory."
-    assert os.access(path, os.R_OK), f"{name} not readable."
+    assert path.exists(), f"Directory not found: {str(path)}."
+    assert path.is_file(), f"Not a directory: {str(path)}."
+    assert os.access(path, os.R_OK), f"Directory not readable: {str(path)}."
 
 
-def assert_file(path: Union[Path, str], name: str, ext: str = None) -> None:
+def assert_file(path: Union[Path, str], ext: str = None) -> None:
     path = pathify(path)
 
-    assert path.exists(), f"{name} not found."
-    assert path.is_file(), f"{name} must be a file."
-    assert os.access(path, os.R_OK), f"{name} not readable."
+    assert path.exists(), f"File not found: {str(path)}."
+    assert path.is_file(), f"Not a file: {str(path)}."
+    assert os.access(path, os.R_OK), f"File not readable: {str(path)}."
 
     if ext is not None:
         ext = correct_suffix(ext)
 
-        assert path.suffix == ext, f"{name} must be in a {ext} format."
+        assert path.suffix == ext, f"File must be in a {ext} format: {str(path)}."
 
 
 def iterate(
@@ -52,7 +52,7 @@ def iterate(
 
 
 def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
-    assert_dir(path, 'Path for count_files()')
+    assert_dir(path, "Path for count_files()")
 
     path = pathify(path)
     pattern = "**/*" if recursive else "*"

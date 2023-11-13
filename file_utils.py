@@ -10,7 +10,7 @@ def assert_dir(path: Union[Path, str]) -> None:
     path = pathify(path)
 
     assert path.exists(), f"Directory not found: {str(path)}."
-    assert path.is_file(), f"Not a directory: {str(path)}."
+    assert path.is_dir(), f"Not a directory: {str(path)}."
     assert os.access(path, os.R_OK), f"Directory not readable: {str(path)}."
 
 

@@ -64,7 +64,6 @@ def get_frames(path: Union[Path, str], reader: str = "opencv"):
 
     if reader == "opencv":
         cap = cv2.VideoCapture(str(path))
-        frames = []
 
         while cap.isOpened():
             ret, frame = cap.read()
@@ -82,7 +81,7 @@ def get_frames(path: Union[Path, str], reader: str = "opencv"):
     elif reader == "pyav":
         with av.open(path) as container:
             for frame in container.decode(video=0):
-                yield frame.to_ndarray()
+                yield frame.to_ndarray(format='rgb24')
     elif reader == "decord":
         with open(path, "rb") as f:
             video_reader = VideoReader(f, ctx=cpu(0))
@@ -127,4 +126,4 @@ def frames_to_video(
 
         video_writer.release()
     elif writer == "moviepy":
-        ImageSequenceClip(frames, fps=fps).write_videofile(str(target))
+        ImageSequenceClip(list(frames), fps=fps).write_videofile(str(target))

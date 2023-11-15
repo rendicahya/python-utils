@@ -1,13 +1,14 @@
+from pathlib import Path
+
 from file_utils import *
 from video_utils import *
-from pathlib import Path
 
 input = "v_Basketball_g01_c01.avi"
 target = Path("video.mp4")
 
 assert_file(input)
 
-frames = get_frames(input, reader="pyav")
+frames = get_frames(input, reader="decord")
 info = video_info(input, reader="opencv")
 
 print("Source video:", info)

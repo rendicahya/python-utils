@@ -81,7 +81,7 @@ def get_frames(path: Union[Path, str], reader: str = "opencv"):
     elif reader == "pyav":
         with av.open(path) as container:
             for frame in container.decode(video=0):
-                yield frame.to_ndarray(format='rgb24')
+                yield frame.to_ndarray(format="rgb24")
     elif reader == "decord":
         with open(path, "rb") as f:
             video_reader = VideoReader(f, ctx=cpu(0))
@@ -100,6 +100,7 @@ def frames_to_video(
     assert writer in (
         "opencv",
         "moviepy",
+        # "pyav",
     ), 'Writer must be one of ["opencv", "moviepy"]'
 
     assert_dir(Path(target).parent)
@@ -126,4 +127,12 @@ def frames_to_video(
 
         video_writer.release()
     elif writer == "moviepy":
-        ImageSequenceClip(list(frames), fps=fps).write_videofile(str(target))
+        ImageSequenceClip(list(frames), fps=fps).write_videofile(str(target), logger=None)
+    # elif writer == "pyav":
+    #     with av.open(str(target), "w", format="mp4") as container:
+    #         out_stream = container.add_stream("h264", fps)
+
+    #         for frame in frames:
+    #             new_frame = av.VideoFrame.from_ndarray(frame, format="rgb24")
+    #             new_frame = out_stream.encode(new_frame)
+    #             container.mux(new_frame)

@@ -49,7 +49,7 @@ def iterate(
 
             if single:
                 break
-pathify
+
 
 def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
     assert_dir(path)

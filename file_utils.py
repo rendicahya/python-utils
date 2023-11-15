@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 def assert_dir(path: Union[Path, str]) -> None:
-    path = pathify(path)
+    path = Path(path)
 
     assert path.exists(), f"Directory not found: {str(path)}."
     assert path.is_dir(), f"Not a directory: {str(path)}."
@@ -15,7 +15,7 @@ def assert_dir(path: Union[Path, str]) -> None:
 
 
 def assert_file(path: Union[Path, str], ext: str = None) -> None:
-    path = pathify(path)
+    path = Path(path)
 
     assert path.exists(), f"File not found: {str(path)}."
     assert path.is_file(), f"Not a file: {str(path)}."
@@ -49,12 +49,12 @@ def iterate(
 
             if single:
                 break
-
+pathify
 
 def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
     assert_dir(path)
 
-    path = pathify(path)
+    path = Path(path)
     pattern = "**/*" if recursive else "*"
 
     if ext is not None:
@@ -65,7 +65,3 @@ def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
 
 def correct_suffix(suffix: str) -> str:
     return suffix if suffix.startswith(".") else "." + suffix
-
-
-def pathify(path: Union[Path, str]):
-    return Path(path) if type(path) is str else path

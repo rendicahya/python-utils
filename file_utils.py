@@ -51,7 +51,7 @@ def iterate(
                 break
 
 
-def count_files(path: Union[Path, str], recursive=True, ext: str = None) -> int:
+def count_files(path: Union[Path, str], recursive: bool = True, ext: str = None) -> int:
     assert_dir(path)
 
     path = Path(path)

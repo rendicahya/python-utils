@@ -1,9 +1,10 @@
 import types
 from pathlib import Path
 from typing import Union
-from decord import VideoReader, cpu
+
 import av
 import cv2
+from decord import VideoReader, cpu
 from file_utils import assert_dir, assert_file
 from moviepy.editor import ImageSequenceClip, VideoFileClip
 
@@ -36,7 +37,6 @@ def video_writer_like(path: Union[Path, str], format: str = "mp4"):
     assert_file(path)
 
     fourcc_formats = {"mp4": "mp4v"}
-    video = cv2.VideoCapture(str(path))
     fourcc_format = fourcc_formats[format]
     fourcc = cv2.VideoWriter_fourcc(*fourcc_format)
     info = video_info(path)

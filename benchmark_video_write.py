@@ -1,8 +1,9 @@
-from pathlib import Path
 import shutil
-from file_utils import assert_dir
+from pathlib import Path
+
+from file import assert_dir
 from timer_py import Timer
-from video_utils import frames_to_video, get_frames, video_info
+from video import frames_to_video, get_frames, video_info
 
 dataset_path = Path("/nas.dbms/randy/datasets/ucf101/ApplyEyeMakeup")
 

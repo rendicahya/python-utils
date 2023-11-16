@@ -1,7 +1,8 @@
 from pathlib import Path
 from typing import Union
-from file_utils import assert_dir
+
 import cv2
+from file_utils import assert_dir
 
 
 def load_image_dir(path: Union[Path, str], flag: int = cv2.IMREAD_COLOR):

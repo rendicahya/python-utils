@@ -5,7 +5,7 @@ from typing import Union
 import av
 import cv2
 from decord import VideoReader, cpu
-from file import assert_dir, assert_file
+from utils.file import assert_dir, assert_file
 from moviepy.editor import ImageSequenceClip, VideoFileClip
 
 

@@ -1,1 +1,1 @@
-from config import Config
+from utils.config import Config

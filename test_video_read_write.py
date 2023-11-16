@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from file_utils import *
-from video_utils import *
+from file import *
+from video import *
 
 input = "v_Basketball_g01_c01.avi"
 target = Path("video.mp4")

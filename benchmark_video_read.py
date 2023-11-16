@@ -1,8 +1,8 @@
 import pathlib
 
-from file_utils import assert_dir
+from file import assert_dir
 from timer_py import Timer
-from video_utils import *
+from video import *
 
 timer = Timer()
 dataset_path = pathlib.Path("../../datasets/ucf101/ApplyEyeMakeup")

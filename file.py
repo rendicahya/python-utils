@@ -56,9 +56,8 @@ def count_files(path: Union[Path, str], recursive: bool = True, ext: str = None)
 
     path = Path(path)
     pattern = "**/*" if recursive else "*"
-
-    if ext is not None:
-        pattern += correct_suffix(ext)
+    ext = ".*" if ext is None else correct_suffix(ext)
+    pattern += ext
 
     return sum(1 for f in path.glob(pattern))
 

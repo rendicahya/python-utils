@@ -3,7 +3,7 @@ from contextlib import nullcontext
 from pathlib import Path
 from typing import Union
 
-from assert_utils import assertdir
+from assert_utils import assert_dir
 from tqdm import tqdm
 
 # def assert_dir(path: Union[Path, str]) -> None:

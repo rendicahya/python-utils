@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Union
 
 import cv2
-from assert_utils import assert_dir
+from python_assert import assert_dir
 
 
 def load_image_dir(path: Union[Path, str], flag: int = cv2.IMREAD_COLOR):

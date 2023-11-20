@@ -1,7 +1,7 @@
 import shutil
 from pathlib import Path
 
-from file import assert_dir
+from python_assert import assert_dir
 from timer_py import Timer
 from video import frames_to_video, get_frames, video_info
 

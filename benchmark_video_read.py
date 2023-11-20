@@ -1,6 +1,6 @@
 import pathlib
 
-from file import assert_dir
+from python_assert import assert_dir
 from timer_py import Timer
 from video import *
 

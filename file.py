@@ -3,28 +3,28 @@ from contextlib import nullcontext
 from pathlib import Path
 from typing import Union
 
+from assert_utils import assertdir
 from tqdm import tqdm
 
+# def assert_dir(path: Union[Path, str]) -> None:
+#     path = Path(path)
 
-def assert_dir(path: Union[Path, str]) -> None:
-    path = Path(path)
-
-    assert path.exists(), f"Directory not found: {str(path)}."
-    assert path.is_dir(), f"Not a directory: {str(path)}."
-    assert os.access(path, os.R_OK), f"Directory not readable: {str(path)}."
+#     assert path.exists(), f"Directory not found: {str(path)}."
+#     assert path.is_dir(), f"Not a directory: {str(path)}."
+#     assert os.access(path, os.R_OK), f"Directory not readable: {str(path)}."
 
 
-def assert_file(path: Union[Path, str], ext: str = None) -> None:
-    path = Path(path)
+# def assert_file(path: Union[Path, str], ext: str = None) -> None:
+#     path = Path(path)
 
-    assert path.exists(), f"File not found: {str(path)}."
-    assert path.is_file(), f"Not a file: {str(path)}."
-    assert os.access(path, os.R_OK), f"File not readable: {str(path)}."
+#     assert path.exists(), f"File not found: {str(path)}."
+#     assert path.is_file(), f"Not a file: {str(path)}."
+#     assert os.access(path, os.R_OK), f"File not readable: {str(path)}."
 
-    if ext is not None:
-        ext = correct_suffix(ext)
+#     if ext is not None:
+#         ext = correct_suffix(ext)
 
-        assert path.suffix == ext, f"File must be in a {ext} format: {str(path)}."
+#         assert path.suffix == ext, f"File must be in a {ext} format: {str(path)}."
 
 
 def iterate(
